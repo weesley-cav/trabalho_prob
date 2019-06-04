@@ -1,0 +1,73 @@
+import random
+import statistics
+import plotly.plotly as py
+import plotly.tools as tls
+import matplotlib.pyplot as plt
+import numpy as np
+from pylab import plot,xlabel,ylabel,show
+
+w=[]
+for a in range (1,10001):
+    if a <= 3000:
+        w.append("A")
+    if a>3000:
+        w.append("B")
+        
+n=[]
+ncheck=[]
+m=[]
+mcheck=[]
+p1=[]
+p2=[]
+
+for b in range (1,2001):
+#variáveis de contagem
+    t=0
+    i=0
+    n.clear()
+    ncheck.clear()
+    m.clear()
+    mcheck.clear()
+#Amostra com 100
+    for c in range (1,100):
+        r1=random.randint(0,9999)
+        ncheck.append(r1)
+        n.append(w[r1])
+        
+#Amostra com 1000    
+    for d in range (1, 1000):
+        r2=random.randint(0,9999)
+        mcheck.append(r2)
+        m.append(w[r2])
+
+#Estudos das amostras
+    for e in range (1,100):
+        if n[e-1]=="A":
+            t=t+1
+        
+    for f in range (1,1000):
+        if m[f-1]=="A":
+            i=i+1
+#lista com médias
+    p1.append(t/100)
+    p2.append(i/1000)
+    
+#média e desvio
+media_p1=(sum(p1)/2000)
+media_p2=(sum(p2)/2000)
+desvio_p1=statistics.pstdev(p1)
+desvio_p2=statistics.pstdev(p2)
+
+#montagem do histograma
+histogram=plt.figure()
+
+x = p1
+y = p2
+
+bins = numpy.linspace(-10, 10, 100)
+
+plt.hist(x, bins, alpha=0.5)
+plt.hist(y, bins, alpha=0.5)
+
+plotly_fig = tls.mpl_to_plotly( histogram )
+py.iplot(plotly_fig,  filename='histogram')
